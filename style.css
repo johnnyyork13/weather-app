@@ -1,6 +1,11 @@
 html {
     width: 100%;
     height: 100%;
+    --lighter: #e0f2fe;
+    --light: #bae6fd;
+    --medium: #38bdf8;
+    --dark: #0284c7;
+    --text: #0c4a6e;
 }
 
 body {
@@ -11,16 +16,106 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+}
+
+h1 {
+    color: var(--light);
 }
 
 #mainSection {
+    margin-top: 80px;
     width: 50%;
-    height: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid red;
+    position: relative;
 }
+
+#results {
+    margin-top: 5%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--medium);
+    padding: 20px;
+    border: 3px solid var(--dark);
+    visibility: hidden;
+    position: relative;
+}
+
+#closeBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--medium);
+    border: none;
+    font-size: 1.2em;
+}
+
+#closeBtn:hover {
+    cursor: pointer;
+    color: var(--light);
+}
+
+.resultDiv {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--light);
+    margin: 5px;
+    color: var(--text);
+    font-weight: bolder;
+    border: 2px solid var(--dark);
+}
+
+.resultDiv:hover {
+    background-color: var(--lighter);
+}
+
+.resultDiv * {
+    margin: 10px;
+}
+
+.inputDiv {
+    position: absolute;
+    top: -50px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+#city {
+    height: 30px;
+    width: 50%;
+    background-color: var(--medium);
+    color: white;
+    border: none;
+    padding-left: 10px;
+}
+
+#city:hover, #state:hover, #submitBtn:hover {
+    background-color: var(--light);
+    color: var(--text);
+    cursor: pointer;
+}
+
+#state {
+    background-color: var(--medium);
+    color: white;
+    border: none;
+    width: 70px;
+    text-align: center;
+}
+
+#submitBtn {
+    background-color: var(--dark);
+    border: none;
+    color: white;
+    margin-left: 5px;
+    border: 2px solid var(--medium);
+}
+
 

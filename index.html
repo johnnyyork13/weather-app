@@ -8,39 +8,41 @@
     <title>Weather App</title>
 </head>
 <body>
+    <h1>PoorCast</h1>
     <div id="mainSection">
         <div id="results">
+            <button type="button" id="closeBtn">X</button>
             <div class="resultDiv">
                 <h3>City: </h3>
-                <h4 id="cityResult"></h4>
+                <h4 id="cityResult" class="result"></h4>
             </div>
             <div class="resultDiv">
                 <h3>State: </h3>
-                <h4 id="stateResult"></h4>
+                <h4 id="stateResult" class="result"></h4>
             </div>
             <div class="resultDiv">
                 <h3>Country: </h3>
-                <h4 id="countryResult"></h4>
+                <h4 id="countryResult" class="result"></h4>
             </div>
             <div class="resultDiv">
                 <h3>Condition:</h3>
-                <h4 id="conditionResult"></h4>
+                <h4 id="conditionResult" class="result"></h4>
             </div>
             <div class="resultDiv">
                 <h3>Humidity: </h3>
-                <h4 id="humidityResult"></h4>
+                <h4 id="humidityResult" class="result"></h4>
             </div>
             <div class="resultDiv">
                 <h3>Temperature: </h3>
-                <h4 id="tempResult"></h4>
+                <h4 id="tempResult" class="result"></h4>
             </div>
             <div class="resultDiv">
                 <h3>Wind:</h3>
-                <h4 id="windResult"></h4>
+                <h4 id="windResult" class="result"></h4>
             </div>
         </div>
         <div class="inputDiv">
-            <input id="city" value="Rome">
+            <input id="city" placeholder="Please Enter a City">
             <select id="state" value="GA">
                 <option>AL</option>
                 <option>AK</option>

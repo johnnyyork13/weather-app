@@ -5,10 +5,15 @@ const conditionResult = document.getElementById('conditionResult');
 const humidityResult = document.getElementById('humidityResult');
 const tempResult = document.getElementById('tempResult');
 const windResult = document.getElementById('windResult');
+const results = document.getElementById('results');
+const result = document.getElementsByClassName('result');
 
 const cityInput = document.getElementById('city');
 const stateInput = document.getElementById('state');
 const submitBtn = document.getElementById('submitBtn');
+const closeBtn = document.getElementById('closeBtn');
+
+results.style.visibility = 'hidden';
 
 async function getData(cityVal, stateVal){
     try {
@@ -27,7 +32,16 @@ async function getData(cityVal, stateVal){
 }
 
 submitBtn.addEventListener('click', function(){
+    results.style.visibility = 'visible';
     const cityVal = cityInput.value;
     const stateVal = stateInput.value;
     getData(cityVal, stateVal);
+})
+
+closeBtn.addEventListener('click', function(){
+    results.style.visibility = 'hidden';
+    for (let i = 0; i < result.length; i++) {
+        const e = result[i];
+        e.textContent = '';
+    }
 })
