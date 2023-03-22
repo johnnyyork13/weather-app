@@ -8,10 +8,15 @@
     <title>Weather App</title>
 </head>
 <body>
-    <h1>PoorCast</h1>
+    <h1>XPCast</h1>
     <div id="mainSection">
         <div id="results">
+            <p id="resultHeader">Current Weather Conditions</p>
             <button type="button" id="closeBtn">X</button>
+            <div class="resultDiv">
+                <h3>Local Time:</h3>
+                <h4 id="timeResult" class="result"></h4>
+            </div>
             <div class="resultDiv">
                 <h3>City: </h3>
                 <h4 id="cityResult" class="result"></h4>
@@ -43,7 +48,7 @@
         </div>
         <div class="inputDiv">
             <input id="city" placeholder="Please Enter a City">
-            <select id="state" value="GA">
+            <select id="state">
                 <option>AL</option>
                 <option>AK</option>
                 <option>AZ</option>
@@ -95,11 +100,16 @@
                 <option>WI</option>
                 <option>WY</option>
             </select>
+            <select id="tempType">
+                <option>Fahrenheit</option>
+                <option>Celsius</option>
+            </select>
             <button type="button" id="submitBtn">Submit</button>
         </div>
         
     </div>
 
+    <footer>Johnny York - <a href="www.github.com/johnnyyork13">GitHub</a></footer>
     <script src="index.js"></script>
 </body>
 </html>
