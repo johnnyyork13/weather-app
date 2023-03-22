@@ -182,4 +182,28 @@ footer a {
     color: white;
 }
 
+@media only screen and (max-width: 1000px) {
+    html {
+        height: fit-content;
+        padding-bottom: 50px;
+    }
+    body {
+        height: fit-content;
+    }
+
+    #mainSection {
+        width: 90%;
+        height: fit-content;
+    }
+
+    #results {
+        width: 90%;
+        height: fit-content;
+    }
+
+    .resultDiv {
+        font-size: .8em;
+        text-align: right;
+    }
+}
 
