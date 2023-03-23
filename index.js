@@ -15,14 +15,26 @@ const stateInput = document.getElementById('state');
 const tempType = document.getElementById('tempType');
 const submitBtn = document.getElementById('submitBtn');
 const closeBtn = document.getElementById('closeBtn');
+const addBtn = document.getElementById('addBtn');
 
 results.style.visibility = 'hidden';
+
+let locationArray = [];
+
+(()=> {
+    const storage = {...localStorage};
+    for (let key in storage) {
+        const location = JSON.parse(localStorage.getItem(key));
+        updateLocationList(location);
+        locationArray.push(location);
+    }
+})();
+
 
 async function getData(cityVal, stateVal, tempType){
     try {
         const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=918188e5f09d4942981155140232103&q=${cityVal}, ${stateVal}`, {mode: 'cors'});
         const responseData = await response.json();
-        console.log(responseData);
         timeResult.textContent = responseData.location.localtime;
         cityResult.textContent = responseData.location.name;
         stateResult.textContent = responseData.location.region;
@@ -88,3 +100,77 @@ closeBtn.addEventListener('click', function(){
         r.textContent = '';
     }
 })
+
+addBtn.addEventListener('click', function(){
+    const cityVal = document.getElementById('city').value;
+    const stateVal = document.getElementById('state').value;
+    const tempVal = document.getElementById('tempType').value;
+    const newLocation = new Object();
+    newLocation.city = cityVal;
+    newLocation.state = stateVal;
+    newLocation.temp = tempVal;
+    localStorage.setItem(cityVal, JSON.stringify(newLocation));
+    updateLocationList(newLocation);
+})
+
+function updateLocationList(loc) {
+    const locations = document.getElementById('locations');
+    const location = document.createElement('div');
+    const locBtn = document.createElement('button');
+
+    location.textContent = `${loc.city}, ${loc.state}`;
+    location.id = loc.city;
+    location.classList.add('location');
+    locBtn.textContent = 'X';
+    locBtn.classList.add('removeLocationBtn');
+    location.appendChild(locBtn);
+    locations.appendChild(location);
+
+    location.addEventListener('click', function(){
+        results.style.visibility = 'visible';
+        results.classList.add('fade-in');
+        getData(loc.city, loc.state, loc.temp);
+        cityInput.style.border = "none";
+        showResultsAnimation();
+    })
+
+    locBtn.addEventListener('click', function(){
+        results.style.visibility = 'hidden';
+        results.classList.remove('fade-in');
+        for (let i = 0; i < resultDiv.length; i++) {
+            const e = resultDiv[i];
+            const r = e.children[1];
+            e.style.visibility = 'hidden';
+            e.classList.remove('fade-in');
+            r.textContent = '';
+        }
+        const storage = {...localStorage};
+        for (let key in storage) {
+            if (key === loc.city) {
+                localStorage.removeItem(key);
+                removeFromLocationList(loc);
+            }
+        }
+
+    })
+}
+
+function removeFromLocationList(loc) {
+    const locationDiv = document.getElementsByClassName('location');
+    for (let i = 0; i < locationArray.length; i++) {
+        const location = locationArray[i];
+        if (loc.city === location.city) {
+            locationArray.splice(i, 1);
+        }
+    }
+    for (let i = locationDiv.children.length -1; i >= 0; i--) {
+        const e = locationDiv.children[i];
+        console.log(e);
+        if (e.id === loc.city) {
+            e.remove();
+        }
+    }
+
+}
+
+

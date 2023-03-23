@@ -113,6 +113,10 @@ h1 {
     font-weight: bolder;
 }
 
+#addBtn {
+    margin-top: 30px;
+}
+
 .inputDiv {
     position: absolute;
     top: -50px;
@@ -169,6 +173,50 @@ h1 {
 #submitBtn:hover {
     background-color: rgb(18, 53, 195);
     cursor: pointer;
+}
+
+#locations {
+    border: 3px solid var(--dark);
+    position: absolute;
+    background-color: white;
+    right: -250px;
+    top: -50px;
+    width: 200px;
+    min-height: 400px;
+    text-align: center;
+    border-top: 40px solid rgb(50, 91, 255);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+#locations > p {
+    position: absolute;
+    top: -45px;
+    color: white;
+    font-weight:bolder;
+}
+
+#locations > button {
+    position: absolute;
+    top: -33px;
+    right: 10px;
+    background-color: rgb(251, 101, 101);
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.location {
+    width: 90%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 footer {
