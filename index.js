@@ -17,6 +17,8 @@ const submitBtn = document.getElementById('submitBtn');
 const closeBtn = document.getElementById('closeBtn');
 const addBtn = document.getElementById('addBtn');
 
+let loading = false;
+
 results.style.visibility = 'hidden';
 
 let locationArray = [];
@@ -25,7 +27,7 @@ let locationArray = [];
     const storage = {...localStorage};
     for (let key in storage) {
         const location = JSON.parse(localStorage.getItem(key));
-        updateLocationList(location);
+        addLocationToLocationList(location);
         locationArray.push(location);
     }
 })();
@@ -58,25 +60,31 @@ function showResultsAnimation(){
     let i = 0;
     const myInterval = setInterval(function(){
         if (i < resultDiv.length) {
+            loading = true;
             let e = resultDiv[i];
-            changeVisibility(e);
+            e.style.visibility = 'hidden';
+            showResultsWindow(e);
             i++;
         } else {
+            loading = false;
             clearInterval(myInterval);
         }
     }, 150);
 }
 
-function changeVisibility(e) {
+function showResultsWindow(e) {
     e.style.visibility = 'visible';
     e.classList.add('fade-in');
 }
 
+function removeResultsWindow(e) {
+    e.style.visibility = 'hidden';
+    e.classList.remove('fade-in');
+}
 
 submitBtn.addEventListener('click', function(){
     if (cityInput.value !== '') {
-        results.style.visibility = 'visible';
-        results.classList.add('fade-in');
+        showResultsWindow(results);
         const cityVal = cityInput.value;
         const stateVal = stateInput.value;
         const tempTypeVal = tempType.value;
@@ -90,16 +98,21 @@ submitBtn.addEventListener('click', function(){
 })
 
 closeBtn.addEventListener('click', function(){
-    results.style.visibility = 'hidden';
-    results.classList.remove('fade-in');
-    for (let i = 0; i < resultDiv.length; i++) {
-        const e = resultDiv[i];
-        const r = e.children[1];
-        e.style.visibility = 'hidden';
-        e.classList.remove('fade-in');
-        r.textContent = '';
+    if (!loading) {
+        removeResultsWindow(results);
+        removeData(resultDiv);
     }
 })
+
+function removeData(element){
+    for (let i = 0; i < element.length; i++) {
+            const e = element[i];
+            const r = e.children[1];
+            e.style.visibility = 'hidden';
+            e.classList.remove('fade-in');
+            r.textContent = '';
+        }
+}
 
 addBtn.addEventListener('click', function(){
     const cityVal = document.getElementById('city').value;
@@ -110,67 +123,59 @@ addBtn.addEventListener('click', function(){
     newLocation.state = stateVal;
     newLocation.temp = tempVal;
     localStorage.setItem(cityVal, JSON.stringify(newLocation));
-    updateLocationList(newLocation);
+    locationArray.push(newLocation);
+    addLocationToLocationList(newLocation);
 })
 
-function updateLocationList(loc) {
+function addLocationToLocationList(loc) {
     const locations = document.getElementById('locations');
     const location = document.createElement('div');
-    const locBtn = document.createElement('button');
+    const locationP = document.createElement('p');
+    const removeLocationBtn = document.createElement('button');
 
-    location.textContent = `${loc.city}, ${loc.state}`;
+    locationP.textContent = `${loc.city}, ${loc.state}`;
     location.id = loc.city;
     location.classList.add('location');
-    locBtn.textContent = 'X';
-    locBtn.classList.add('removeLocationBtn');
-    location.appendChild(locBtn);
+    removeLocationBtn.textContent = 'X';
+    removeLocationBtn.classList.add('removeLocationBtn');
+    location.appendChild(locationP);
+    location.appendChild(removeLocationBtn);
     locations.appendChild(location);
 
-    location.addEventListener('click', function(){
-        results.style.visibility = 'visible';
-        results.classList.add('fade-in');
-        getData(loc.city, loc.state, loc.temp);
-        cityInput.style.border = "none";
-        showResultsAnimation();
+    locationP.addEventListener('click', function(){
+        if (!loading) {
+            removeResultsWindow(results);
+            showResultsWindow(results);
+            const cityVal = loc.city;
+            const stateVal = loc.state;
+            const tempTypeVal = loc.temp;
+            getData(cityVal, stateVal, tempTypeVal);
+            cityInput.style.border = "none";
+            showResultsAnimation();
+        }
     })
 
-    locBtn.addEventListener('click', function(){
-        results.style.visibility = 'hidden';
-        results.classList.remove('fade-in');
-        for (let i = 0; i < resultDiv.length; i++) {
-            const e = resultDiv[i];
-            const r = e.children[1];
-            e.style.visibility = 'hidden';
-            e.classList.remove('fade-in');
-            r.textContent = '';
-        }
-        const storage = {...localStorage};
-        for (let key in storage) {
-            if (key === loc.city) {
-                localStorage.removeItem(key);
-                removeFromLocationList(loc);
-            }
-        }
-
+    removeLocationBtn.addEventListener('click', function(){
+        removeFromLocationList(loc)
     })
 }
 
 function removeFromLocationList(loc) {
-    const locationDiv = document.getElementsByClassName('location');
+    const locationDiv = document.getElementById('locations');
     for (let i = 0; i < locationArray.length; i++) {
         const location = locationArray[i];
         if (loc.city === location.city) {
             locationArray.splice(i, 1);
+            localStorage.removeItem(loc.city);
         }
     }
-    for (let i = locationDiv.children.length -1; i >= 0; i--) {
+    for (let i = locationDiv.children.length - 1; i >= 0; i--) {
         const e = locationDiv.children[i];
-        console.log(e);
-        if (e.id === loc.city) {
+        if (e.textContent === `${loc.city}, ${loc.state}X`) {
             e.remove();
+            break
         }
     }
-
 }
 
 
