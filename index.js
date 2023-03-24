@@ -26,7 +26,10 @@ let locationArray = [];
 (()=> {
     const storage = {...localStorage};
     for (let key in storage) {
-        if (key !== undefined) {
+        const keyMap = key.split('');
+        const keyWeather = keyMap.splice(0, 7);
+        const keyJoin = keyWeather.join('');
+        if (keyJoin === 'weather') {
             const location = JSON.parse(localStorage.getItem(key));
             addLocationToLocationList(location);
             locationArray.push(location);
@@ -123,7 +126,7 @@ addBtn.addEventListener('click', function(){
     newLocation.city = cityVal;
     newLocation.state = stateVal;
     newLocation.temp = tempVal;
-    localStorage.setItem(cityVal, JSON.stringify(newLocation));
+    localStorage.setItem(`weather${cityVal}`, JSON.stringify(newLocation));
     locationArray.push(newLocation);
     addLocationToLocationList(newLocation);
 })
@@ -167,7 +170,7 @@ function removeFromLocationList(loc) {
         const location = locationArray[i];
         if (loc.city === location.city) {
             locationArray.splice(i, 1);
-            localStorage.removeItem(loc.city);
+            localStorage.removeItem(`weather${loc.city}`);
         }
     }
     for (let i = locationDiv.children.length - 1; i >= 0; i--) {
