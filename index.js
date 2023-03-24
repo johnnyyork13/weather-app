@@ -26,9 +26,11 @@ let locationArray = [];
 (()=> {
     const storage = {...localStorage};
     for (let key in storage) {
-        const location = JSON.parse(localStorage.getItem(key));
-        addLocationToLocationList(location);
-        locationArray.push(location);
+        if (key !== undefined) {
+            const location = JSON.parse(localStorage.getItem(key));
+            addLocationToLocationList(location);
+            locationArray.push(location);
+        }
     }
 })();
 
@@ -94,7 +96,6 @@ submitBtn.addEventListener('click', function(){
     } else {
         cityInput.style.border = '2px solid red';
     }
-
 })
 
 closeBtn.addEventListener('click', function(){
