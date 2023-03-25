@@ -176,6 +176,7 @@ h1 {
 }
 
 #locations {
+    visibility: hidden;
     border: 3px solid var(--dark);
     position: absolute;
     background-color: white;
@@ -200,7 +201,7 @@ h1 {
     font-weight:bolder;
 }
 
-#locations > button {
+#locationExitBtn {
     position: absolute;
     top: -33px;
     right: 10px;
@@ -209,6 +210,13 @@ h1 {
     border: 1px solid white;
     border-radius: 5px;
     font-size: 1.2em;
+}
+
+#locationExitBtn:hover {
+    cursor: pointer;
+    background-color: rgb(205, 84, 84);
+    color: rgb(172, 172, 172);
+    border: 1px solid rgb(172, 172, 172);
 }
 
 .location {
@@ -221,10 +229,9 @@ h1 {
 
 footer {
     position: absolute;
-    height: 30px;
+    height: 35px;
     border-top:5px solid rgb(111, 138, 247);
     display: flex;
-    justify-content: center;
     align-items: center;
     width: 100%;
     bottom: -10%;
@@ -233,9 +240,43 @@ footer {
     background-color: rgb(50, 91, 255);
 }
 
-footer a {
-    color: white;
+#startBtn {
+    position: absolute;
+    left: 0;
+    top: -5px;
+    cursor: pointer;
 }
+
+.footerBtnContainer {
+    display: flex;
+    align-items: center;
+    margin-left: 150px;
+    height: 35px;
+}
+
+.footerBtn {
+    width: 250px;
+    background-color: rgb(71, 104, 237);
+    border-top: 2px solid rgb(111, 138, 247);
+    border-bottom: 2px solid rgb(111, 138, 247);
+    border-left: 1px solid rgb(111, 138, 247);
+    border-right: 1px solid rgb(111, 138, 247);
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+.footerBtn img {
+    height: 90%;
+    margin-right: 8px;
+}
+
+
 
 @media only screen and (max-width: 1000px) {
     html {

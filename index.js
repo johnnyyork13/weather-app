@@ -9,6 +9,13 @@ const windResult = document.getElementById('windResult');
 const results = document.getElementById('results');
 const result = document.getElementsByClassName('result');
 const resultDiv = document.getElementsByClassName('resultDiv');
+const startBtn = document.getElementById('startBtn');
+const footerBtn = document.getElementsByClassName('footerBtn');
+const currentBtn = document.getElementById('currentBtn');
+const savedBtn = document.getElementById('savedBtn');
+const gitBtn = document.getElementById('gitBtn');
+const locations = document.getElementById('locations');
+const locationExitBtn = document.getElementById('locationExitBtn');
 
 const cityInput = document.getElementById('city');
 const stateInput = document.getElementById('state');
@@ -18,6 +25,8 @@ const closeBtn = document.getElementById('closeBtn');
 const addBtn = document.getElementById('addBtn');
 
 let loading = false;
+let currentWindowActive = false;
+let locationWindowActive = false;
 
 results.style.visibility = 'hidden';
 
@@ -37,7 +46,63 @@ let locationArray = [];
     }
 })();
 
+for (let i = 0; i < footerBtn.length; i++) {
+    const e = footerBtn[i];
+    e.addEventListener('mouseenter', function(){
+        e.style.cursor = 'pointer';
+        e.style.backgroundColor = 'rgb(107, 130, 223)';
+    })
+    e.addEventListener('mouseleave', function(){
+        const windowActive = checkWindowActive(e);
+        if (!windowActive) {
+            e.style.backgroundColor = `rgb(71, 104, 237)`;
+        }
+    })
+}
 
+startBtn.addEventListener('mouseenter', function(){
+    startBtn.children[0].src = './images/xp-closed.png';
+})
+
+startBtn.addEventListener('mouseleave', function(){
+    startBtn.children[0].src = './images/xp-open.png';
+})
+
+locations.style.visibility = 'hidden';
+savedBtn.addEventListener('click', function(){
+    openWindow(locations, savedBtn, locationWindowActive);
+})
+
+locationExitBtn.addEventListener('click', function(){
+    openWindow(locations, savedBtn, locationWindowActive);
+})
+
+function checkWindowActive(e) {
+    switch (e.id) {
+        case 'currentBtn':
+            if (currentWindowActive === false) {
+                return false;
+            }
+        case 'savedBtn':
+            if (locationWindowActive === false) {
+                return false;
+            }
+        case 'gitBtn':
+            break;
+    }
+}
+
+function openWindow(window, btn, activeWindow){
+    if (window.style.visibility === 'hidden') {
+        window.style.visibility = 'visible';
+        btn.style.backgroundColor = 'rgb(107, 130, 223)';
+        activeWindow = true;
+    } else {
+        window.style.visibility = 'hidden';
+        btn.style.backgroundColor = 'rgb(71, 104, 237)';
+        activeWindow = false;
+    }
+}
 async function getData(cityVal, stateVal, tempType){
     try {
         const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=918188e5f09d4942981155140232103&q=${cityVal}, ${stateVal}`, {mode: 'cors'});
