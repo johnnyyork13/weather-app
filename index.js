@@ -16,6 +16,8 @@ const savedBtn = document.getElementById('savedBtn');
 const gitBtn = document.getElementById('gitBtn');
 const locations = document.getElementById('locations');
 const locationExitBtn = document.getElementById('locationExitBtn');
+const inputDiv = document.getElementById('inputDiv');
+const footerBtnContainer = document.getElementById('footerBtnContainer');
 
 const cityInput = document.getElementById('city');
 const stateInput = document.getElementById('state');
@@ -29,6 +31,8 @@ let currentWindowActive = false;
 let locationWindowActive = false;
 
 results.style.visibility = 'hidden';
+locations.style.visibility = 'hidden';
+inputDiv.style.visibility = 'hidden';
 
 let locationArray = [];
 
@@ -46,6 +50,7 @@ let locationArray = [];
     }
 })();
 
+/*
 for (let i = 0; i < footerBtn.length; i++) {
     const e = footerBtn[i];
     e.addEventListener('mouseenter', function(){
@@ -59,6 +64,7 @@ for (let i = 0; i < footerBtn.length; i++) {
         }
     })
 }
+*/
 
 startBtn.addEventListener('mouseenter', function(){
     startBtn.children[0].src = './images/xp-closed.png';
@@ -68,29 +74,30 @@ startBtn.addEventListener('mouseleave', function(){
     startBtn.children[0].src = './images/xp-open.png';
 })
 
-locations.style.visibility = 'hidden';
-savedBtn.addEventListener('click', function(){
-    openWindow(locations, savedBtn, locationWindowActive);
-})
-
 locationExitBtn.addEventListener('click', function(){
     openWindow(locations, savedBtn, locationWindowActive);
 })
 
-function checkWindowActive(e) {
-    switch (e.id) {
-        case 'currentBtn':
-            if (currentWindowActive === false) {
-                return false;
-            }
-        case 'savedBtn':
-            if (locationWindowActive === false) {
-                return false;
-            }
-        case 'gitBtn':
-            break;
-    }
-}
+addListeners(inputDiv, currentBtn, currentWindowActive);
+addListeners(locations, savedBtn, locationWindowActive);
+
+function addListeners(mainDiv, btn, boolVar) {
+    mainDiv.visibility = 'hidden';
+    btn.addEventListener('click', function(){
+        openWindow(mainDiv, btn, boolVar);
+        boolVar = true;
+    })
+    btn.addEventListener('mouseenter', function(){
+        btn.style.backgroundColor = `rgb(107, 130, 223)`;
+        btn.style.cursor = 'pointer';
+    })
+    btn.addEventListener('mouseleave', function(){
+        if (!boolVar) {
+            btn.style.backgroundColor = 'rgb(71, 104, 237)';
+        }
+    })
+} 
+
 
 function openWindow(window, btn, activeWindow){
     if (window.style.visibility === 'hidden') {
@@ -161,6 +168,7 @@ submitBtn.addEventListener('click', function(){
         getData(cityVal, stateVal, tempTypeVal);
         cityInput.style.border = "none";
         showResultsAnimation();
+        addResultTab();
     } else {
         cityInput.style.border = '2px solid red';
     }
@@ -170,8 +178,30 @@ closeBtn.addEventListener('click', function(){
     if (!loading) {
         removeResultsWindow(results);
         removeData(resultDiv);
+        removeResultTab();
     }
 })
+
+function addResultTab(){
+    const resultTab = document.createElement('div');
+    resultTab.id = 'resultTab';
+    resultTab.classList.add('footerBtn');
+    const myImg = document.createElement('img');
+    myImg.src = './images/weather-logo.png';
+    resultTab.appendChild(myImg);
+    resultTab.innerHTML += 'Weather Results';
+    footerBtnContainer.appendChild(resultTab);
+}
+
+function removeResultTab(){
+    for (let i = footerBtnContainer.children.length -1; i >= 0; i--) {
+        const e = footerBtnContainer.children[i];
+        if (e.id === 'resultTab') {
+            e.remove();
+            break;
+        }
+    }
+}
 
 function removeData(element){
     for (let i = 0; i < element.length; i++) {
@@ -221,6 +251,7 @@ function addLocationToLocationList(loc) {
             getData(cityVal, stateVal, tempTypeVal);
             cityInput.style.border = "none";
             showResultsAnimation();
+            addResultTab();
         }
     })
 
