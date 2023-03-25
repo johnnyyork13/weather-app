@@ -221,9 +221,16 @@ h1 {
 
 footer {
     position: absolute;
+    height: 30px;
+    border-top:5px solid rgb(111, 138, 247);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     bottom: -10%;
     font-size: 1.3em;
     color: white;
+    background-color: rgb(50, 91, 255);
 }
 
 footer a {
