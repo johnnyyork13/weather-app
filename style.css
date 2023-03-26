@@ -47,7 +47,7 @@ h1 {
 }
 
 #results {
-    margin-top: 5%;
+    margin-top: 10%;
     width: 60%;
     display: flex;
     flex-direction: column;
@@ -61,6 +61,7 @@ h1 {
     border-top: 40px solid rgb(50, 91, 255);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    z-index: 1;
 }
 
 #resultHeader {
@@ -70,7 +71,7 @@ h1 {
     font-weight:bolder;
 }
 
-#closeBtn {
+#closeBtn, #inputCloseBtn {
     position: absolute;
     top: -33px;
     right: 10px;
@@ -81,7 +82,7 @@ h1 {
     font-size: 1.2em;
 }
 
-#closeBtn:hover {
+#closeBtn:hover, #inputCloseBtn:hover {
     cursor: pointer;
     background-color: rgb(205, 84, 84);
     color: rgb(172, 172, 172);
@@ -118,12 +119,34 @@ h1 {
 }
 
 #inputDiv {
+    border: 3px solid var(--dark);
+    border-top: 40px solid rgb(50, 91, 255);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     visibility: hidden;
     position: absolute;
     top: -50px;
     width: 100%;
+    height: 30%;
     display: flex;
     justify-content: center;
+    background-color: var(--light);
+    padding-top: 20px;
+
+}
+
+#inputDiv img, #locations img {
+    position: absolute;
+    top: -38px;
+    left: 5px;
+}
+
+#inputDiv p {
+    position: absolute;
+    top: -45px;
+    left: 50px;
+    color: white;
+    font-weight: bolder;
 }
 
 #city {
@@ -131,9 +154,8 @@ h1 {
     width: 50%;
     background-color: var(--light);
     color: var(--text);
-    border: none;
     padding-left: 10px;
-    box-shadow: 5px 5px .2em .2em var(--text);
+    /*box-shadow: 5px 5px .2em .2em var(--text);*/
     font-weight: bolder;
 }
 
@@ -141,23 +163,27 @@ h1 {
     background-color: var(--hover);
 }
 
+#city, #state, #tempType {
+    border: 2px solid var(--dark);
+}
+
 #state {
     background-color: var(--light);
     color: var(--text);
-    border: none;
     width: 70px;
+    height: 36px;
     text-align: center;
-    box-shadow: 5px 5px .2em .2em var(--text);
+    /*box-shadow: 5px 5px .2em .2em var(--text);*/
     font-weight: bolder;
 }
 
 #tempType {
     background-color: var(--light);
     color: var(--text);
-    border: none;
     width: 100px;
+    height: 36px;
     text-align: center;
-    box-shadow: 5px 5px .2em .2em var(--text);
+    /*box-shadow: 5px 5px .2em .2em var(--text);*/
     font-weight: bolder;
 }
 
@@ -166,8 +192,9 @@ h1 {
     border: none;
     color: white;
     margin-left: 5px;
+    height: 36px;
     border: 2px solid var(--medium);
-    box-shadow: 5px 5px .2em .2em var(--text);
+    /*box-shadow: 5px 5px .2em .2em var(--text);*/
     font-weight: bolder;
 }
 
@@ -180,10 +207,10 @@ h1 {
     visibility: hidden;
     border: 3px solid var(--dark);
     position: absolute;
-    background-color: white;
+    background-color: var(--light);
     right: -250px;
     top: -50px;
-    width: 200px;
+    width: 250px;
     min-height: 400px;
     text-align: center;
     border-top: 40px solid rgb(50, 91, 255);
@@ -198,6 +225,7 @@ h1 {
 #locations > p {
     position: absolute;
     top: -45px;
+    left: 50px;
     color: white;
     font-weight:bolder;
 }
@@ -275,6 +303,11 @@ footer {
 .footerBtn img {
     height: 90%;
     margin-right: 8px;
+}
+
+#gitBtn:hover {
+    cursor: pointer;
+    background-color: rgb(107, 130, 223);
 }
 
 

@@ -18,6 +18,7 @@ const locations = document.getElementById('locations');
 const locationExitBtn = document.getElementById('locationExitBtn');
 const inputDiv = document.getElementById('inputDiv');
 const footerBtnContainer = document.getElementById('footerBtnContainer');
+const inputCloseBtn = document.getElementById('inputCloseBtn');
 
 const cityInput = document.getElementById('city');
 const stateInput = document.getElementById('state');
@@ -29,6 +30,7 @@ const addBtn = document.getElementById('addBtn');
 let loading = false;
 let currentWindowActive = false;
 let locationWindowActive = false;
+let showResultsActive = false;
 
 results.style.visibility = 'hidden';
 locations.style.visibility = 'hidden';
@@ -50,21 +52,6 @@ let locationArray = [];
     }
 })();
 
-/*
-for (let i = 0; i < footerBtn.length; i++) {
-    const e = footerBtn[i];
-    e.addEventListener('mouseenter', function(){
-        e.style.cursor = 'pointer';
-        e.style.backgroundColor = 'rgb(107, 130, 223)';
-    })
-    e.addEventListener('mouseleave', function(){
-        const windowActive = checkWindowActive(e);
-        if (!windowActive) {
-            e.style.backgroundColor = `rgb(71, 104, 237)`;
-        }
-    })
-}
-*/
 
 startBtn.addEventListener('mouseenter', function(){
     startBtn.children[0].src = './images/xp-closed.png';
@@ -78,14 +65,17 @@ locationExitBtn.addEventListener('click', function(){
     openWindow(locations, savedBtn, locationWindowActive);
 })
 
+inputCloseBtn.addEventListener('click', function(){
+    openWindow(inputDiv, currentBtn, currentWindowActive);
+})
+
 addListeners(inputDiv, currentBtn, currentWindowActive);
 addListeners(locations, savedBtn, locationWindowActive);
 
 function addListeners(mainDiv, btn, boolVar) {
     mainDiv.visibility = 'hidden';
     btn.addEventListener('click', function(){
-        openWindow(mainDiv, btn, boolVar);
-        boolVar = true;
+        boolvar = openWindow(mainDiv, btn, boolVar);
     })
     btn.addEventListener('mouseenter', function(){
         btn.style.backgroundColor = `rgb(107, 130, 223)`;
@@ -166,7 +156,7 @@ submitBtn.addEventListener('click', function(){
         const stateVal = stateInput.value;
         const tempTypeVal = tempType.value;
         getData(cityVal, stateVal, tempTypeVal);
-        cityInput.style.border = "none";
+        cityInput.style.border = "2px solid var(--dark)";
         showResultsAnimation();
         addResultTab();
     } else {
@@ -191,6 +181,20 @@ function addResultTab(){
     resultTab.appendChild(myImg);
     resultTab.innerHTML += 'Weather Results';
     footerBtnContainer.appendChild(resultTab);
+    resultTab.addEventListener('click', function(){
+        openWindow(results, resultTab, showResultsActive);
+        if (resultDiv[0].style.visibility === 'visible') {
+            for (let i = 0; i < resultDiv.length; i++) {
+                const e = resultDiv[i];
+                e.style.visibility = 'hidden';
+            }
+        } else {
+            for (let i = 0; i < resultDiv.length; i++) {
+                const e = resultDiv[i];
+                e.style.visibility = 'visible';
+            }
+        }
+    })
 }
 
 function removeResultTab(){
@@ -249,7 +253,7 @@ function addLocationToLocationList(loc) {
             const stateVal = loc.state;
             const tempTypeVal = loc.temp;
             getData(cityVal, stateVal, tempTypeVal);
-            cityInput.style.border = "none";
+            cityInput.style.border = "2px solid var(--dark)";
             showResultsAnimation();
             addResultTab();
         }
