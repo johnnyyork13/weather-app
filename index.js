@@ -256,8 +256,10 @@ function removeData(element){
 }
 
 addBtn.addEventListener('click', function(){
-    const cityVal = document.getElementById('city').value;
-    const stateVal = document.getElementById('state').value;
+    const locationVal = cityInput.value;
+    const locValSplit = locationVal.split(',');
+    const cityVal = locValSplit[0];
+    const stateVal = locValSplit[1];
     const tempVal = document.getElementById('tempType').value;
     const newLocation = new Object();
     newLocation.city = cityVal;
@@ -266,6 +268,7 @@ addBtn.addEventListener('click', function(){
     localStorage.setItem(`weather${cityVal}`, JSON.stringify(newLocation));
     locationArray.push(newLocation);
     addLocationToLocationList(newLocation);
+    openWindow(locations, savedBtn, locationWindowActive);
 })
 
 function addLocationToLocationList(loc) {
