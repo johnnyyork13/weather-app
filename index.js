@@ -22,6 +22,7 @@ const inputCloseBtn = document.getElementById('inputCloseBtn');
 const weatherIcon = document.getElementById('weatherIcon');
 const mainSection = document.getElementById('mainSection');
 const weatherIconP = document.getElementById('weatherIconP');
+const startMenu = document.getElementById('startMenu');
 
 const cityInput = document.getElementById('city');
 const tempType = document.getElementById('tempType');
@@ -54,6 +55,10 @@ let locationArray = [];
     }
 })();
 
+//add listener to start menu
+startMenu.addEventListener('mouseleave', function(){
+    startMenu.style.visibility = 'hidden';
+})
 
 //add listeners to remove highlighting on icon
 for (let i = 0; i < mainSection.children.length; i++) {
@@ -74,6 +79,7 @@ weatherIcon.addEventListener('click', function(){
 
 startBtn.addEventListener('mouseenter', function(){
     startBtn.children[0].src = './images/xp-closed.png';
+    startMenu.style.visibility = 'visible';
 })
 
 startBtn.addEventListener('mouseleave', function(){
