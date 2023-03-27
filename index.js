@@ -19,9 +19,11 @@ const locationExitBtn = document.getElementById('locationExitBtn');
 const inputDiv = document.getElementById('inputDiv');
 const footerBtnContainer = document.getElementById('footerBtnContainer');
 const inputCloseBtn = document.getElementById('inputCloseBtn');
+const weatherIcon = document.getElementById('weatherIcon');
+const mainSection = document.getElementById('mainSection');
+const weatherIconP = document.getElementById('weatherIconP');
 
 const cityInput = document.getElementById('city');
-const stateInput = document.getElementById('state');
 const tempType = document.getElementById('tempType');
 const submitBtn = document.getElementById('submitBtn');
 const closeBtn = document.getElementById('closeBtn');
@@ -53,6 +55,23 @@ let locationArray = [];
 })();
 
 
+//add listeners to remove highlighting on icon
+for (let i = 0; i < mainSection.children.length; i++) {
+    const e = mainSection.children[i];
+    e.addEventListener('click', function(){
+        weatherIconP.style.backgroundColor = 'rgba(0,0,0,.01)';
+    })
+}
+
+weatherIcon.addEventListener('click', function(){
+    let checkTab = checkTabs('currentTab');
+    weatherIcon.children[1].style.backgroundColor = 'rgb(33, 75, 246)';
+    if (checkTab) {
+        addCurrentTab();
+    }
+
+})
+
 startBtn.addEventListener('mouseenter', function(){
     startBtn.children[0].src = './images/xp-closed.png';
 })
@@ -67,9 +86,9 @@ locationExitBtn.addEventListener('click', function(){
 
 inputCloseBtn.addEventListener('click', function(){
     openWindow(inputDiv, currentBtn, currentWindowActive);
+    removeResultTab('currentTab');
 })
 
-addListeners(inputDiv, currentBtn, currentWindowActive);
 addListeners(locations, savedBtn, locationWindowActive);
 
 function addListeners(mainDiv, btn, boolVar) {
@@ -77,26 +96,15 @@ function addListeners(mainDiv, btn, boolVar) {
     btn.addEventListener('click', function(){
         boolvar = openWindow(mainDiv, btn, boolVar);
     })
-    btn.addEventListener('mouseenter', function(){
-        btn.style.backgroundColor = `rgb(107, 130, 223)`;
-        btn.style.cursor = 'pointer';
-    })
-    btn.addEventListener('mouseleave', function(){
-        if (!boolVar) {
-            btn.style.backgroundColor = 'rgb(71, 104, 237)';
-        }
-    })
 } 
 
 
 function openWindow(window, btn, activeWindow){
     if (window.style.visibility === 'hidden') {
         window.style.visibility = 'visible';
-        btn.style.backgroundColor = 'rgb(107, 130, 223)';
         activeWindow = true;
     } else {
         window.style.visibility = 'hidden';
-        btn.style.backgroundColor = 'rgb(71, 104, 237)';
         activeWindow = false;
     }
 }
@@ -117,10 +125,19 @@ async function getData(cityVal, stateVal, tempType){
             tempResult.textContent = `${responseData.current.temp_c}C`;
             windResult.textContent = `${responseData.current.wind_dir} ${responseData.current.wind_kph} KPH`;
         }
-
     } catch (err) {
         console.log(err);
     }
+}
+
+function checkTabs(tab) {
+    for (let i = 0; i < footerBtnContainer.children.length; i++) {
+        const e = footerBtnContainer.children[i];
+        if (e.id === tab) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function showResultsAnimation(){
@@ -151,14 +168,20 @@ function removeResultsWindow(e) {
 
 submitBtn.addEventListener('click', function(){
     if (cityInput.value !== '') {
-        showResultsWindow(results);
-        const cityVal = cityInput.value;
-        const stateVal = stateInput.value;
-        const tempTypeVal = tempType.value;
-        getData(cityVal, stateVal, tempTypeVal);
-        cityInput.style.border = "2px solid var(--dark)";
-        showResultsAnimation();
-        addResultTab();
+        let checkTab = checkTabs('resultTab');
+        if (checkTab) {
+            showResultsWindow(results);
+            const locationVal = cityInput.value;
+            const locValSplit = locationVal.split(',');
+            const cityVal = locValSplit[0];
+            const stateVal = locValSplit[1];
+            const tempTypeVal = tempType.value;
+            getData(cityVal, stateVal, tempTypeVal);
+            cityInput.style.border = "2px solid var(--dark)";
+            showResultsAnimation();
+            addResultTab();
+        }
+
     } else {
         cityInput.style.border = '2px solid red';
     }
@@ -168,7 +191,7 @@ closeBtn.addEventListener('click', function(){
     if (!loading) {
         removeResultsWindow(results);
         removeData(resultDiv);
-        removeResultTab();
+        removeResultTab('resultTab');
     }
 })
 
@@ -197,10 +220,25 @@ function addResultTab(){
     })
 }
 
-function removeResultTab(){
+function addCurrentTab(){
+    const currentTab = document.createElement('div');
+    currentTab.id = 'currentTab';
+    currentTab.classList.add('footerBtn');
+    const myImg = document.createElement('img');
+    myImg.src = './images/weather-logo.png';
+    currentTab.appendChild(myImg);
+    currentTab.innerHTML += 'Current Weather';
+    footerBtnContainer.appendChild(currentTab);
+    openWindow(inputDiv, currentTab, currentWindowActive);
+    currentTab.addEventListener('click', function(){
+        openWindow(inputDiv, currentTab, currentWindowActive);
+    })
+}
+
+function removeResultTab(eId){
     for (let i = footerBtnContainer.children.length -1; i >= 0; i--) {
         const e = footerBtnContainer.children[i];
-        if (e.id === 'resultTab') {
+        if (e.id === eId) {
             e.remove();
             break;
         }
@@ -246,7 +284,8 @@ function addLocationToLocationList(loc) {
     locations.appendChild(location);
 
     locationP.addEventListener('click', function(){
-        if (!loading) {
+        let checkTab = checkTabs('resultTab');
+        if (!loading && checkTab) {
             removeResultsWindow(results);
             showResultsWindow(results);
             const cityVal = loc.city;

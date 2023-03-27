@@ -9,6 +9,10 @@
 </head>
 <body>
     <h1>XPCast</h1>
+    <div id="weatherIcon">
+        <img src="./images/weather-logo.png">
+        <p id="weatherIconP">Weather App</p>
+    </div>
     <div id="mainSection">
         <div id="results">
             <p id="resultHeader">Current Weather Conditions</p>
@@ -51,7 +55,8 @@
             <img src="./images/weather-logo.png">
             <p>Current Weather</p>
             <button id="inputCloseBtn">X</button>
-            <input id="city" placeholder="Please Enter a City">
+            <input id="city" placeholder="City, State">
+            <!--
             <select id="state">
                 <option>AL</option>
                 <option>AK</option>
@@ -104,6 +109,7 @@
                 <option>WI</option>
                 <option>WY</option>
             </select>
+            -->
             <select id="tempType">
                 <option>Fahrenheit</option>
                 <option>Celsius</option>
@@ -121,9 +127,8 @@
     <footer>
         <div id="startBtn"><img src='./images/xp-open.png'></div>
         <div id="footerBtnContainer">
-            <div id="currentBtn" class="footerBtn"><img src="./images/weather-logo.png">Current Weather</div>
             <div id="savedBtn" class="footerBtn"><img src="./images/weather-logo.png">Saved Locations</div>
-            <div id="gitBtn" class="footerBtn" onclick="window.location.href='https://www.github.com/johnnyyork13'"><img src="./images/github-logo.png">GitHub</div>
+            <div id="gitBtn" class="footerBtn" onclick="window.location.href='https://www.github.com/johnnyyork13'"><img src="./images/github-logo.png">My GitHub</div>
         </div>
     </footer>
     <script src="index.js"></script>
