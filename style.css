@@ -269,16 +269,19 @@ h1 {
     position: absolute;
     top: -33px;
     right: 10px;
-    background-color: rgb(251, 101, 101);
+    height: 25px;
+    width: 25px;
+    background-color: rgb(95, 125, 245);
     color: white;
     border: 1px solid white;
     border-radius: 5px;
-    font-size: 1.2em;
+    font-size: 1em;
+    padding-bottom: 10px;
 }
 
 #locationExitBtn:hover {
     cursor: pointer;
-    background-color: rgb(205, 84, 84);
+    background-color: rgb(31, 72, 236);
     color: rgb(172, 172, 172);
     border: 1px solid rgb(172, 172, 172);
 }
